@@ -1,10 +1,10 @@
 #!/bin/sh
 
-INSTALL_ROOT="/fx-nas-00/FX-Prod/Archive/sbouxin"
+INSTALL_ROOT="root location including all sowftware sources"
 
-CREATE_MOUNT_AND_LINKS=
+CREATE_MOUNT_AND_LINKS="YES"
 
-INSTALL_NVIDIA_DRIVERS=
+INSTALL_NVIDIA_DRIVERS="YES"
 
 INSTALL_MONO="YES"
 MONO_VERSION="2.10.9"
@@ -26,35 +26,19 @@ HOUDINI_VERSION="13.0.498"
 
 INSTALL_RV="YES"
 
-INSTALL_CODECS=
+INSTALL_CODECS="YES"
 
-REBOOT=
+REBOOT="YES"
 
 if test $CREATE_MOUNT_AND_LINKS; then
 echo "creating and mounting the various network resources..."
-# mkdir /mnt/deadlineRepo
-# mkdir -p /fx-nas-00/FX-Prod
-# chmod -R 777 /fx-nas-00
-mkdir -p /fx-nas-01/FX-Prod
-chmod -R 777 /fx-nas-01
-mkdir -p /fx-nas-02/FX-Prod
-chmod -R 777 /fx-nas-02
-# mkdir -p /mnt/transfert
-# chmod -R 777 /mnt/transfert
-# mkdir -p /mnt/Z
-# chmod -R 777 /mnt/Z
-# sed -i '$ a\\\\\Frimashare\\usager\\mricbourg /mnt/Z cifs credentials=/root/creds,noperm 0 0' /etc/fstab
-# sed -i '$ a\\\\\fs-nas-00\\transfert /mnt/transfert cifs credentials=/root/creds,noperm 0 0' /etc/fstab
-# sed -i '$ a\\\\\fsdeadline01\\deadline /mnt/deadlineRepo cifs credentials=/root/creds,noperm 0 0' /etc/fstab
-# sed -i '$ a\\\\\fx-nas-00\\FX-Prod /fx-nas-00/FX-Prod cifs credentials=/root/creds,noperm 0 0' /etc/fstab
-sed -i '$ a\\\\\fx-nas-01\\pool-01_fx-prod\\FX-PROD /fx-nas-01/FX-Prod cifs credentials=/root/creds,noperm 0 0' /etc/fstab
+mkdir /mnt/deadlineRepo
+sed -i '$ a\\\\\fs-nas\\pool-01\\share /mnt/share cifs credentials=/root/creds,noperm 0 0' /etc/fstab
 sed -i '$ a\#\\\\fx-nas-02\\FX-Prod /fx-nas-02/FX-Prod cifs credentials=/root/creds,noperm 0 0' /etc/fstab
-sed -i '$ a\fx-nas-02.frima.local:/mnt/Storage/FX-Prod /fx-nas-02/FX-Prod nfs rsize=8192,wsize=8192,timeo=14,intr 0 0' /etc/fstab
 mount -a
 mkdir /mnt/render
-ln -s /fx-nas-00/FX-Prod/SHOTGUN/mnt/projects /mnt
-ln -s /fx-nas-00/FX-Prod/SHOTGUN/mnt/software /mnt
-ln -s /fx-nas-02/FX-Prod/SHOTGUN/mnt/projects/j2s /mnt/render
+ln -s /mnt/share/SHOTGUN/projects /mnt
+ln -s /mnt/share/SHOTGUN/software /mnt
 echo "done creating and mounting the various network resources..."
 echo " "
 fi
@@ -105,24 +89,7 @@ export LD_LIBRARY_PATH=/opt/Autodesk/Adlm/R7/lib64/
 /usr/autodesk/maya$MAYA_VERSION-x64/bin/adlmreg -i N 657F1 657F1 2014.0.0.F 393-77433081 /var/opt/Autodesk/Adlm/Maya$MAYA_VERSION/MayaConfig.pit
 cd $INSTALL_ROOT
 cp local_files/maya.sh /etc/profile.d/
-cp local_files/ffx.sh /etc/profile.d/
 echo "done installing Maya version $MAYA_VERSION ..."
-echo " "
-fi
-
-if test $INSTALL_DELIGHT; then
-echo "installing 3delight version $DELIGHT_VERSION ..."
-cd $INSTALL_ROOT
-cd 3delight-$DELIGHT_VERSION
-./install --prefix /opt
-cd /opt/3delight-11.0.83
-unset DELIGHT
-cd $INSTALL_ROOT
-cp local_files/3delight.sh /etc/profile.d/
-rm -rf /opt/3delight-11.0.83/Linux-x86_64/rendermn.ini
-cp local_files/rendermn.ini /opt/3delight-11.0.83/Linux-x86_64/
-ln -s /opt/3delight-$DELIGHT_VERSION/Linux-x86_64/lib/lib3delight.so /usr/autodesk/maya2014-x64/lib/
-echo "done installing 3delight version $DELIGHT_VERSION ..."
 echo " "
 fi
 
@@ -148,15 +115,12 @@ echo "installing Houdini version $HOUDINI_VERSION ..."
 cd $INSTALL_ROOT
 cd houdini-$HOUDINI_VERSION
 ./houdini.install --no-license --make-dir /opt/hfs$HOUDINI_VERSION
-# cd /opt/hfs$HOUDINI_VERSION
-# ls
-# source houdini_setup
-# hserver -S poste-0058.frima.local
+cd /opt/hfs$HOUDINI_VERSION
+ls
+source houdini_setup
+hserver -S poste-0058.frima.local
 cd $INSTALL_ROOT
 cp local_files/houdini.sh /etc/profile.d/
-# mkdir /opt/hfs$HOUDINI_VERSION/houdini/scripts/deadline
-# cp /mnt/deadlineRepo/submission/Houdini/Client/DeadlineHoudiniClient.py /opt/hfs$HOUDINI_VERSION/houdini/scripts/deadline/
-# cp /mnt/deadlineRepo/submission/Houdini/Client/MainMenuCommon.xml /opt/hfs$HOUDINI_VERSION/houdini/
 echo "done installing Houdini version $HOUDINI_VERSION ..."
 echo " "
 fi
