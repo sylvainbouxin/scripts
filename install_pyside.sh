@@ -2,7 +2,6 @@
 
 echo "installing pisyde"
 
-cd /mnt/FrimaTI/CentOS_FX_WS
 python2.7 get-pip.py
 pip2.7 install wheel
 cd PySide-1.2.2
@@ -18,7 +17,6 @@ echo " "
 
 echo "installing cgkit 2.0"
 
-cd /mnt/FrimaTI/CentOS_FX_WS
 sudo yum -y install scons
 cd cgkit-2.0.0/supportlib
 scons
