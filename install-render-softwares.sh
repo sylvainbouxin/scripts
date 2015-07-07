@@ -117,7 +117,7 @@ cd houdini-$HOUDINI_VERSION
 cd /opt/hfs$HOUDINI_VERSION
 ls
 source houdini_setup
-hserver -S poste-0058.frima.local
+hserver -S <license server>
 cd $INSTALL_ROOT
 cp local_files/houdini.sh /etc/profile.d/
 echo "done installing Houdini version $HOUDINI_VERSION ..."
