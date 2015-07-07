@@ -85,7 +85,7 @@ rm -rf /usr/autodesk/maya$MAYA_VERSION-x64/bin/License.env
 cp local_files/License.env /usr/autodesk/maya$MAYA_VERSION-x64/bin/
 cp local_files/maya.lic /var/flexlm/
 export LD_LIBRARY_PATH=/opt/Autodesk/Adlm/R7/lib64/
-/usr/autodesk/maya$MAYA_VERSION-x64/bin/adlmreg -i N 657F1 657F1 2014.0.0.F 393-77433081 /var/opt/Autodesk/Adlm/Maya$MAYA_VERSION/MayaConfig.pit
+/usr/autodesk/maya$MAYA_VERSION-x64/bin/adlmreg -i N xxxxx xxxxx yyyy.y.y.y zzz-zzzzzzzz /var/opt/Autodesk/Adlm/Maya$MAYA_VERSION/MayaConfig.pit
 cd $INSTALL_ROOT
 cp local_files/maya.sh /etc/profile.d/
 echo "done installing Maya version $MAYA_VERSION ..."
