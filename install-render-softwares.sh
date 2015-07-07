@@ -34,7 +34,6 @@ if test $CREATE_MOUNT_AND_LINKS; then
 echo "creating and mounting the various network resources..."
 mkdir /mnt/deadlineRepo
 sed -i '$ a\\\\\fs-nas\\pool-01\\share /mnt/share cifs credentials=/root/creds,noperm 0 0' /etc/fstab
-sed -i '$ a\#\\\\fx-nas-02\\FX-Prod /fx-nas-02/FX-Prod cifs credentials=/root/creds,noperm 0 0' /etc/fstab
 mount -a
 mkdir /mnt/render
 ln -s /mnt/share/SHOTGUN/projects /mnt
